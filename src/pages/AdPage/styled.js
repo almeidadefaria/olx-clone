@@ -68,5 +68,56 @@ export const PageArea = styled.div`
 
     .rightSide{
         width: 250px;
+
+        .price span{
+            color: #0000ff;
+            display: block;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .contactSellerLink{
+            background-color: #0000ff;
+            color: #fff;
+            height: 30px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 4px #999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .createBy small{
+            display: block;
+            color: #999;
+            margin-top: 10px;
+        }
+    }
+`;
+
+export const OthersArea = styled.div`
+    h2{
+        font-size: 20px;
+    }
+
+    .list{
+        display: flex;
+
+        .aditem{
+            width: 33%;
+        }
+    }
+`;
+export const BreadChumb = styled.div`
+    font-size: 13px;
+    margin-top: 20px;
+
+    a{
+        display: inline-block;
+        margin: 0px 5px;
+        text-decoration: underline;
+        color: #000;
     }
 `;

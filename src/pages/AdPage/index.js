@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import {Slide} from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-import {PageArea, Fake} from './styled';
+import {PageArea, Fake, OthersArea, BreadChumb} from './styled';
 import useApi from '../../helpers/OlxAPI';
 import {PageContainer} from '../../components/MainComponents';
+import AdItem from '../../components/partials/AdItem';
 
 const Page = () => {
 
@@ -31,10 +32,22 @@ const Page = () => {
         let cYear = cDate.getFullYear();
 
         return `${cDay} de ${months[cMonth]} de ${cYear}`;
-    }
+    }      
+    
 
     return (
-        <PageContainer>            
+        <PageContainer>
+            {adInfo.category &&
+                <BreadChumb>
+                    Você está aqui:
+                    <Link to="/">Home</Link>
+                    /
+                    <Link to={`/ads?state=${adInfo.stateName}`}>{adInfo.stateName}</Link>
+                    /
+                    <Link to={`/ads?state=${adInfo.stateName}&cat=${adInfo.category.slug}`}>{adInfo.category.name}</Link>
+                    / {adInfo.title}                
+                </BreadChumb>
+            }            
             <PageArea>                
                 <div className="leftSide">
                     <div className="box">
@@ -70,10 +83,41 @@ const Page = () => {
                     </div>
                 </div>
                 <div className="rightSide">
-                    <div className="box box--padding">{loading && <Fake height={20}/>}</div>
-                    <div className="box box--padding">{loading && <Fake height={50}/>}</div>
-                </div>
+                    <div className="box box--padding">
+                        {loading && <Fake height={20}/>}
+                        {adInfo.priceNegotiable &&
+                            "Preço Negociável"
+                        }
+                        {!adInfo.priceNegotiable && adInfo.price &&
+                            <div className="price">Preço: <span>R$ {adInfo.price},00</span></div>
+                        }
+                    </div>
+                    {loading && <Fake height={50}/>}
+                    {adInfo.userInfo &&
+                        <>
+                            <a href={`mailto:${adInfo.userInfo.email}`} target="_blank" className="contactSellerLink">Fale com o vendedor</a>
+                            <div className="createBy box box--padding">
+                                <strong>{adInfo.userInfo.name}</strong>
+                                <small>Email: {adInfo.userInfo.email}</small>
+                                <small>Estado: {adInfo.stateName}</small>
+                            </div>
+                        </>
+                    }
+                    
+                </div>                
             </PageArea>
+            <OthersArea>
+                {adInfo.others &&
+                        <>
+                            <h2>Outras ofertas do vendedor</h2>
+                            <div className="list">
+                                {adInfo.others.map((i, k)=>
+                                    <AdItem key={k} data={i}/>
+                                )}
+                            </div>
+                        </>
+                    }
+            </OthersArea>
         </PageContainer>
     );
 };
