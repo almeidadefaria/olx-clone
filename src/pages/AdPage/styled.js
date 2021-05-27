@@ -104,9 +104,10 @@ export const OthersArea = styled.div`
 
     .list{
         display: flex;
+        flex-wrap: wrap;
 
         .aditem{
-            width: 25%;
+            width: 25%;            
         }
     }
 `;
