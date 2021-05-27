@@ -106,7 +106,7 @@ export const OthersArea = styled.div`
         display: flex;
 
         .aditem{
-            width: 33%;
+            width: 25%;
         }
     }
 `;

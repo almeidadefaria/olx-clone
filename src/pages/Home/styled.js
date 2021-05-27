@@ -85,7 +85,7 @@ export const PageArea = styled.div`
         flex-wrap: wrap;
 
         .aditem{
-            width: 33%;
+            width: 25%;
         }
     }
 
