@@ -6,10 +6,12 @@ import useApi from '../../helpers/OlxAPI';
 import {PageContainer} from '../../components/MainComponents';
 import AdItem from '../../components/partials/AdItem';
 
+let timer;
+
 const Page = () => {
     
     const api = useApi();
-    const history = useHistory();
+    const history = useHistory();    
 
     const useQueryString = () => {
         return new URLSearchParams(useLocation().search);
@@ -24,6 +26,23 @@ const Page = () => {
     const [stateList, setStateList] = useState([]);
     const [categories, setCategories] = useState([]);
     const [adList, setAdList] = useState([]);
+
+    const [resultOpaticy, setResultOpacity] = useState(1);    
+    const [loading, setLoading] = useState(true);
+
+    const getAdsList = async () => {
+        setLoading(true);
+        const json = await api.getAds({
+            sort: 'desc',
+            limit: 9,
+            q,
+            cat,
+            state
+        });
+        setAdList(json.ads);
+        setResultOpacity(1);
+        setLoading(false);
+    }
 
     useEffect(()=>{
         let queryString = [];
@@ -42,6 +61,13 @@ const Page = () => {
         history.replace({
             search: `?${queryString.join('&')}`
         });
+
+        if(timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(getAdsList, 2000);
+        setResultOpacity(0.3);
+        
     }, [q, cat, state]);
 
     useEffect(()=>{
@@ -59,17 +85,7 @@ const Page = () => {
         }
         getCategories();
     }, []);
-
-    useEffect(()=>{
-        const getRecentAds = async () => {
-            const json = await api.getAds({
-                sort: 'desc',
-                limit: 8            
-            });
-            setAdList(json.ads);
-        }
-        getRecentAds();
-    }, []);
+    
 
     return (
         <PageContainer>
@@ -94,7 +110,18 @@ const Page = () => {
                     </form>
                 </div>
                 <div className="rightSide">
-                    
+                    <h2>Resultados</h2>
+                    {loading &&
+                        <div className="listWarning">Carregando...</div>
+                    }
+                    {!loading && adList.length ===0 &&
+                        <div className="listWarning">Não encontramos resultados.</div>
+                    }
+                    <div className="list" style={{opacity: resultOpaticy}}>
+                        {adList.map((i, k)=>
+                            <AdItem key={k} data={i} />
+                        )}
+                    </div>
                 </div>
             </PageArea>
         </PageContainer>
