@@ -30,7 +30,7 @@ export default () => {
             </RouteHandler>
             <RouteHandler private exact path='/post-an-ad'>
                 <AddAd/>
-            </RouteHandler>
+            </RouteHandler>            
             <RouteHandler exact path='/ads'>
                 <Ads/>
             </RouteHandler>

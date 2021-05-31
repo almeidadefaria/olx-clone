@@ -80,7 +80,8 @@ export const PageArea = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 10px 0;
+            margin: 10px 0;            
+                       
 
             .pagItem{
                 width: 30px;
@@ -91,6 +92,43 @@ export const PageArea = styled.div`
                 justify-content: center;
                 font-size: 14px;
                 margin-right: 5px;
+                cursor: pointer;
+
+                &:hover{
+                    border: 1px solid #999;
+                }
+
+                &.active{
+                    background-color: #ccc;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 600px){
+        &{
+            flex-direction: column;
+        }
+
+        .leftSide{
+            width: auto;
+            margin: 10px;
+
+            ul{
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            li{
+                width: 50%;
+            }
+        }
+
+        .rightSide{
+            margin: 10px;
+
+            .list .aditem{
+                width: 50%;
             }
         }
     }
